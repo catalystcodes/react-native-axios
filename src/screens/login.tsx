@@ -26,33 +26,92 @@ const Login = ({ navigation }) => {
     setEmail(email);
   };
 
-  const onSubmitFormHandler = async (event) => {
+  // POST REQUEST
+
+  //   const onSubmitFormHandler = async (event) => {
+  //     if (!fullName.trim() || !email.trim()) {
+  //       alert("Name or Email is invalid");
+  //       return;
+  //     }
+
+  //     setIsLoading(true);
+
+  //     try {
+  //       const response = await axios.post(`${baseUrl}/api/users`, {
+  //         fullName,
+  //         email,
+  //       });
+
+  //       if (response.status === 201) {
+  //         alert(` You have created: ${JSON.stringify(response.data)}`);
+  //         setIsLoading(false);
+  //         setFullName("");
+  //         setEmail("");
+  //       } else {
+  //         throw new Error("An error has occurred");
+  //       }
+  //     } catch (error) {
+  //       alert("An error has occurred");
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //PUT REQUEST
+  const onSubmitFormHandler = (event) => {
     if (!fullName.trim() || !email.trim()) {
       alert("Name or Email is invalid");
       return;
     }
-
     setIsLoading(true);
 
-    try {
-      const response = await axios.post(`${baseUrl}/api/users`, {
-        fullName,
-        email,
-      });
+    const configurationObject = {
+      url: `${baseUrl}/api/users/2`,
+      method: "PUT",
+      data: { fullName, email },
+    };
 
-      if (response.status === 201) {
-        alert(` You have created: ${JSON.stringify(response.data)}`);
+    axios(configurationObject)
+      .then((response) => {
+        if (response.status === 200) {
+          alert(` You have updated: ${JSON.stringify(response.data)}`);
+          setIsLoading(false);
+          setFullName("");
+          setEmail("");
+        } else {
+          throw new Error("An error has occurred");
+        }
+      })
+      .catch((error) => {
+        alert("An error has occurred");
         setIsLoading(false);
-        setFullName("");
-        setEmail("");
-      } else {
-        throw new Error("An error has occurred");
-      }
-    } catch (error) {
-      alert("An error has occurred");
-      setIsLoading(false);
-    }
+      });
   };
+
+  //DELETE REQUEST
+  //   const onSubmitFormHandler = async (event) => {
+  //     if (!fullName.trim() || !email.trim()) {
+  //       alert("Name or Email is invalid");
+  //       return;
+  //     }
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await axios.delete(`${baseUrl}/api/users/2`, {
+  //         fullName,
+  //         email,
+  //       });
+  //       if (response.status === 204) {
+  //         alert(` You have deleted: ${JSON.stringify(response.data)}`);
+  //         setIsLoading(false);
+  //         setFullName("");
+  //         setEmail("");
+  //       } else {
+  //         throw new Error("Failed to delete resource");
+  //       }
+  //     } catch (error) {
+  //       alert("Failed to delete resource");
+  //       setIsLoading(false);
+  //     }
+  //   };
 
   return (
     <View style={{ flexGrow: 1, backgroundColor: "#252526" }}>
