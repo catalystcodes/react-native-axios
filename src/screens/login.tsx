@@ -28,64 +28,65 @@ const Login = ({ navigation }) => {
 
   // POST REQUEST
 
-  //   const onSubmitFormHandler = async (event) => {
-  //     if (!fullName.trim() || !email.trim()) {
-  //       alert("Name or Email is invalid");
-  //       return;
-  //     }
-
-  //     setIsLoading(true);
-
-  //     try {
-  //       const response = await axios.post(`${baseUrl}/api/users`, {
-  //         fullName,
-  //         email,
-  //       });
-
-  //       if (response.status === 201) {
-  //         alert(` You have created: ${JSON.stringify(response.data)}`);
-  //         setIsLoading(false);
-  //         setFullName("");
-  //         setEmail("");
-  //       } else {
-  //         throw new Error("An error has occurred");
-  //       }
-  //     } catch (error) {
-  //       alert("An error has occurred");
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //PUT REQUEST
-  const onSubmitFormHandler = (event) => {
+  const onSubmitFormHandler = async (event) => {
     if (!fullName.trim() || !email.trim()) {
       alert("Name or Email is invalid");
       return;
     }
+
     setIsLoading(true);
 
-    const configurationObject = {
-      url: `${baseUrl}/api/users/2`,
-      method: "PUT",
-      data: { fullName, email },
-    };
-
-    axios(configurationObject)
-      .then((response) => {
-        if (response.status === 200) {
-          alert(` You have updated: ${JSON.stringify(response.data)}`);
-          setIsLoading(false);
-          setFullName("");
-          setEmail("");
-        } else {
-          throw new Error("An error has occurred");
-        }
-      })
-      .catch((error) => {
-        alert("An error has occurred");
-        setIsLoading(false);
+    try {
+      const response = await axios.post(`${baseUrl}/api/users`, {
+        fullName,
+        email,
       });
+
+      if (response.status === 201) {
+        // alert(` You have created: ${JSON.stringify(response.data)}`);
+        navigation.navigate("Home");
+        setIsLoading(false);
+        setFullName("");
+        setEmail("");
+      } else {
+        throw new Error("An error has occurred");
+      }
+    } catch (error) {
+      alert("An error has occurred");
+      setIsLoading(false);
+    }
   };
+
+  //PUT REQUEST
+  //   const onSubmitFormHandler = (event) => {
+  //     if (!fullName.trim() || !email.trim()) {
+  //       alert("Name or Email is invalid");
+  //       return;
+  //     }
+  //     setIsLoading(true);
+
+  //     const configurationObject = {
+  //       url: `${baseUrl}/api/users/2`,
+  //       method: "PUT",
+  //       data: { fullName, email },
+  //     };
+
+  //     axios(configurationObject)
+  //       .then((response) => {
+  //         if (response.status === 200) {
+  //           alert(` You have updated: ${JSON.stringify(response.data)}`);
+  //           setIsLoading(false);
+  //           setFullName("");
+  //           setEmail("");
+  //         } else {
+  //           throw new Error("An error has occurred");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         alert("An error has occurred");
+  //         setIsLoading(false);
+  //       });
+  //   };
 
   //DELETE REQUEST
   //   const onSubmitFormHandler = async (event) => {
@@ -142,6 +143,7 @@ const Login = ({ navigation }) => {
             value={email}
             editable={!isLoading}
             onChangeText={onChangeEmailHandler}
+            keyboardType="email-address"
           />
         </View>
         <View>
@@ -152,21 +154,6 @@ const Login = ({ navigation }) => {
           />
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#aaa",
-          padding: 10,
-          borderRadius: 5,
-          marginTop: 30,
-          alignSelf: "center",
-          marginBottom: 20,
-        }}
-        onPress={() => {
-          navigation.navigate("Home");
-        }}
-      >
-        <Text>Next Screen</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -185,6 +172,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     marginBottom: 10,
+    marginTop: 5,
   },
   input: {
     borderWidth: 2,
@@ -192,8 +180,9 @@ const styles = StyleSheet.create({
     minWidth: 200,
     textAlignVertical: "center",
     paddingLeft: 10,
-    borderRadius: 20,
+    borderRadius: 5,
     color: "#ffffff",
+    height: 40,
   },
 });
 
